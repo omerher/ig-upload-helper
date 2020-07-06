@@ -16,6 +16,7 @@ IG Upload Helper is a combination of scripts to help you upload content to your 
 ## Setup
 1. Go into the Instagram folder and open *description.txt*. Here enter all of the captions that you want to be randomly picked from when creating a caption for a post. Some examples of captions can be ***Tag a friend!***, ***What do you think of this post?***, etc. Each different caption has to be separated by a new line. Save the file when you are done. You can always change this in the future.
 2. In that same folder, go into *hashtags.json* (you may need to use [Notepad++](https://notepad-plus-plus.org/downloads/) to edit it). The file should look like Example #1 (if not just copy that into the file). This program uses the staircase hashtags method to get hashtags. Copy the smaller hashtags into `"bottom": "ENTER HERE"`, and the same goes for the other two. They should be in the `#hashtag1 #hashtag2 #hashtag3` format. This will randomize the hashtags from each tier for every post. The file should now look like example #2 (but longer obviously). If you use completely randomized hashtags from one list just copy them all into one of the tiers and follow these next steps. By default, the program takes 10 hashtags from the bottom tier, 9 from the middle one and 8 from the top tier. You can change these numbers by going into *caption.py* in the main directory and changing lines 30-33 (see Example #3). Note that if put this number at a higher value than the number of hashtags in that tier, the program will run for an infinite amount of time, so make sure that the value is lower or equal to the number of hashtags you have in the file.
+3. Next go to *main.py* and on line 114, which should look like example #4, change that folder path to the dircetory of folder "media_backup", if that folder does not exist yet, create it.
 ##### Example #1
 ```json
 {
@@ -46,7 +47,10 @@ num_hashtags = {
 }
 ```
 
-3.
+##### Example #4
+```python
+    parent_path = "E:/Coding/Instagram Upload Bot/media"
+```
 
 ## Usage
 
