@@ -73,6 +73,4 @@ def get_caption(og_caption, username, og_poster):
     return cap.create_caption()
 
 if __name__ == "__main__":
-    caption = caption("a", "b", "om")
-
-    subprocess.run(['clip.exe'], input=caption.encode('utf-16'), check=True)
+    pass
