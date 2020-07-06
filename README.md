@@ -55,7 +55,7 @@ num_hashtags = {
 ## Usage
 
 Things to do before starting:
-1) Open Chrome on your primary monitor and be logged in to Facebook Creator Studios with the account you want (must have bookmarks tab open for it to work).
+1) Open Chrome on your primary monitor and be logged in to Facebook Creator Studios with the account you want.
 2) Open pressing enter, you have 5 seconds to click on your browser.
 3) When the program is running, you have a few seconds to click anywhere after the bot opens a new tab.
 4) Remember that you can't click on anything on your computer while the bot is running, I recommend having a video playing on your second monitor, or something that you don't need to touch.
