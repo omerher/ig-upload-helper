@@ -54,7 +54,8 @@ class Caption:
         credit = self.get_credits()
         hashtags = self.get_hashtags()
         
-        caption = f"""{desc}
+        caption = f"""
+{desc}
 FOLLOW 👉👉 @{self.username} 👈👈 FOR MORE
 __
 📸: {credit}
