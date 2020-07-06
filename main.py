@@ -111,7 +111,7 @@ def main(scrape_account, input_timestamp):
     data = reduce_posts(_data)
 
 
-    parent_path = "E:/Coding/Instagram Upload Bot/media"
+    parent_path = "ENTER_FULL_PATH_TO/Instagram Upload Bot/media"
 
     for x, post in enumerate(data):
         medias = reversed(post["media"])
