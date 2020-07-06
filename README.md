@@ -50,13 +50,12 @@ num_hashtags = {
 
 ## Usage
 
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
-```
+Things to do before starting:
+1) Open Chrome on your primary monitor and be logged in to Facebook Creator Studios with the account you want (must have bookmarks tab open for it to work).
+2) Open pressing enter, you have 5 seconds to click on your browser.
+3) When the program is running, you have a few seconds to click anywhere after the bot opens a new tab.
+4) Remember that you can't click on anything on your computer while the bot is running, I recommend having a video playing on your second monitor, or something that you don't need to touch.
+5) To stop the bot, drag your mouse to the top left corner of your main monitor, and that will raise an error to stop the bot (This might take two times to work).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
