@@ -63,12 +63,12 @@ def main(scrape_account, input_timestamp):
         with open("last_timestamp.txt", "r") as f:
             last_timestamp = int(f.read())
     elif not input_timestamp and not os.path.exists("last_timestamp.txt"):
-        input_timestamp = sg.popup_get_text("No timestamp found. Please enter a timestamp to continue.")
-        while not input_timestamp.isnumberic():
-            if input_timestamp is None:
+        last_timestamp = sg.popup_get_text("No timestamp found. Please enter a timestamp to continue.")
+        while not last_timestamp.isnumberic():
+            if last_timestamp is None:
                 quit()
-            input_timestamp = sg.popup_get_text("Please enter only numbers.")
-        input_timestamp = int(input_timestamp)
+            last_timestamp = sg.popup_get_text("Please enter only numbers.")
+        last_timestamp = int(last_timestamp)
     else: 
         last_timestamp = input_timestamp
 
@@ -134,7 +134,7 @@ def main(scrape_account, input_timestamp):
     variable 'timestamp' is the calculated timestamp for the psot
     variable 'current' is set the current hour needed, which is the remainder of the i divided by the length of 'times'
     """
-    timestamp = int(input_timestamp)
+    timestamp = int(last_timestamp)
     dt = datetime.fromtimestamp(timestamp)  # convert that timestamp to an useable datetime object
 
     # try to find the index of the hour from the timestamp in the configured hours, but if not found, start from the beginning of that day
