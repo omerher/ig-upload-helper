@@ -122,7 +122,7 @@ def main(scrape_account, input_timestamp):
         uploader.uploader(post_caption, file_names, bb_enabled)
     
     to_remove = sg.popup_get_text("Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
-    while not to_remove.isnumeric() or (0 <= int(to_remove) <= 25):
+    while not to_remove.isnumeric() or not (0 <= int(to_remove) <= 25):
         if to_remove is None:
             quit()
         to_remove = sg.popup_get_text("Please input a number from 0-25. Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
