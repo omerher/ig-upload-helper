@@ -134,7 +134,7 @@ def main(scrape_account, input_timestamp):
     variable 'timestamp' is the calculated timestamp for the psot
     variable 'current' is set the current hour needed, which is the remainder of the i divided by the length of 'times'
     """
-    timestamp = input_timestamp
+    timestamp = int(timestamp)
     dt = datetime.fromtimestamp(timestamp)  # convert that timestamp to an useable datetime object
 
     # try to find the index of the hour from the timestamp in the configured hours, but if not found, start from the beginning of that day
