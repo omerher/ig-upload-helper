@@ -74,7 +74,7 @@ __
 ```
 You can change the caption to whatever format you want using thee keywords, or add additional features if you know Python.
 
-4. Go into line 114 in *main.py* and change `parent_path  =  "ENTER_FULL_PATH_TO/Instagram Upload Bot/media"` and change it to the full path of the 'media' folder (e.g., `parent_path  =  "E:/Coding/Instagram Upload Bot/media"`). Make sure to replace and backslash `\` with a regular slash `/`.
+4. Go into line 114 in *main.py* and change `parent_path  =  "ENTER_FULL_PATH_TO/Instagram Upload Bot/media"` and change it to the full path of the 'media' folder (e.g., `parent_path  =  "E:/Coding/Instagram Upload Bot/media"`). Make sure to replace and backslash `\` with a regular slash `/`. You also have to change line 61 in *uploader.py* to the same path.
 
 5. The final thing to do is run *setup.py*. This is a GUI with settings needed to run the program. To run the file all you have to do is make sure the virtual environment is activated (you should see **(venv)** at the beginning of the line in your CMD window, if it's not activated, check step 7 in Installation), and enter `python setup.py` into the CMD window. Enter all the information in the program and press save.
 
