@@ -13,7 +13,7 @@ def click(cords):
 class Uploader:
     def __init__(self, caption, f_names, bb_enabled):
         # bb = bookmarks bar
-        if bb_enabled:
+        if bb_enabled == "True":
             bb_difference = 0
         else:
             bb_difference = 35
