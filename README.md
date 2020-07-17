@@ -7,6 +7,7 @@ IG Upload Helper is a combination of scripts to help you upload content to your 
 - **Chrome installed and set as the default browser**. Currently, this program only works with Chrome (submit an issue with a different browser and I will try to add support for it).
 - This has been tested only on **Windows 10** and I don't know if it will work for other operating systems.
 - **1080p monitor**. The pixel coordinates won't work for any quality other than 1080p. The size of the monitor doesn't matter.
+- **100% Scale Size**. Go to Settings > Display > Scale and Layout and change the size of text, apps, and other items to 100%.
 
 I will be trying to make this more compatible in the future with more browsers and operating systems. 
 
