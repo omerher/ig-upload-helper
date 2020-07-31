@@ -11,7 +11,7 @@ def click(cords):
     pyautogui.click(x, y)
 
 class Uploader:
-    def __init__(self, caption, f_names, bb_enabled):
+    def __init__(self, caption, f_names, bb_enabled, path):
         # bb = bookmarks bar
         if bb_enabled == "True":
             bb_difference = 0
@@ -26,8 +26,10 @@ class Uploader:
         self.file_upload = (1270, 786-self.bb_difference)
         self.address_bar = (748, 47)
         self.file_names_cords = (900, 977)
+        
         self.caption = caption
         self.file_names = f_names
+        self.path = path
     
     def new_tab(self):
         # open new tab
@@ -58,7 +60,7 @@ class Uploader:
         time.sleep(1)
         click(self.address_bar)
         time.sleep(0.4)
-        keyboard.write("E:/Coding/Instagram Upload Bot/media")
+        keyboard.write(self.path)
         time.sleep(0.4)
         keyboard.press_and_release("enter")
 
@@ -70,8 +72,8 @@ class Uploader:
         keyboard.press_and_release("enter")
 
 
-def uploader(caption, f_names, bb_enabled):
-    uploader = Uploader(caption, f_names, bb_enabled)
+def uploader(caption, f_names, bb_enabled, path):
+    uploader = Uploader(caption, f_names, bb_enabled, path)
     uploader.new_tab()
 
     time.sleep(1)

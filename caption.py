@@ -28,9 +28,9 @@ class Caption:
         path = os.path.join("Instagram", "hashtags.json")
         tiers = ["bottom", "middle", "top"]
         num_hashtags = {
-            "bottom": 9,
-            "middle": 9,
-            "top": 9
+            "bottom": 3,
+            "middle": 3,
+            "top": 3
         }
 
         hashtag_str = ""

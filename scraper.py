@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 import re
+import PySimpleGUI as sg
 
 def get_id(username):
     url = "https://www.instagram.com/web/search/topsearch/?context=blended&query=" + username + "&rank_token=0.3953592318270893&count=1"
@@ -85,7 +86,7 @@ class InstagramScaper:
         counter = 0
         while len(self.data) < num_posts:
             counter += 1
-            print(f"\rScraping posts of user {account}, currently at post {counter*12}/{num_posts}", end="")
+            sg.one_line_progress_meter('Scraping Posts', counter*12, num_posts, f"Scraping posts of user {account}...", orientation='h')
             info = self.get_user_info(account_id, max_id)  # get targeted user's posts
 
             # parse through all posts
@@ -121,8 +122,6 @@ class InstagramScaper:
                 break
             
             max_id = info["data"]["user"]["edge_owner_to_timeline_media"]["page_info"]["end_cursor"]  # get max id for next batch            
-
-        print("\n\n")
         
         self.data = self.data[:num_posts]  # removes last posts to match number of posts requested
         self.sort_posts()

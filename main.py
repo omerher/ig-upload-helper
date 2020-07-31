@@ -35,11 +35,11 @@ def download_image(url, dir, name):
         f.write(img)
 
 
-def reduce_posts(posts):
-    return random.sample(posts[:26], len(posts[:26]))
+def reduce_posts(posts, num_posts):
+    return random.sample(posts[:num_posts+1], len(posts[:num_posts+1]))
 
 
-def main(scrape_account, input_timestamp):
+def main(scrape_account, input_timestamp, num_posts):
     # creates necessary folders if they don't exists
     if not os.path.exists("media_backup"):
         os.mkdir("media_backup")
@@ -101,10 +101,10 @@ def main(scrape_account, input_timestamp):
         with open(os.path.join("pickle_data",  f"{scrape_account}.pkl"), "wb") as f:
             pickle.dump(_data, f)
 
-    data = reduce_posts(_data)
+    data = reduce_posts(_data, num_posts)
 
 
-    parent_path = "ENTER_FULL_PATH_TO/Instagram Upload Bot/media"
+    parent_path = config['folder_path']
 
     for x, post in enumerate(data):
         medias = reversed(post["media"])
@@ -119,14 +119,14 @@ def main(scrape_account, input_timestamp):
         
         # create a caption using a method which gets: the original caption, the username of the account posting, and the origin poster
         post_caption = caption.get_caption(post["caption"], username, post["op"])  # pass in values short description, your username, and credit respectively, and returns a generated caption
-        uploader.uploader(post_caption, file_names, bb_enabled)
+        uploader.uploader(post_caption, file_names, bb_enabled, parent_path)
     
     to_remove = sg.popup_get_text("Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
-    while not to_remove.isnumeric() or not (0 <= int(to_remove) <= 25):
+    while not to_remove.isnumeric() or not (0 <= int(to_remove) <= num_posts):
         if to_remove is None:
             quit()
-        to_remove = sg.popup_get_text("Please input a number from 0-25. Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
-    num_tabs = 25 - int(to_remove)
+        to_remove = sg.popup_get_text(f"Please input a number from 0-{num_posts}. Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
+    num_tabs = num_posts - int(to_remove)
 
 
     """
@@ -137,13 +137,15 @@ def main(scrape_account, input_timestamp):
     timestamp = int(last_timestamp)
     dt = datetime.fromtimestamp(timestamp)  # convert that timestamp to an useable datetime object
 
+    date_format = config['settings']['date_format']  # get date format from file
+    
     # try to find the index of the hour from the timestamp in the configured hours, but if not found, start from the beginning of that day
     try:
         starting_time = post_hours.index(dt.hour) + 1
         print(starting_time)
     except ValueError:
         formatted_time = f"{dt.day}/{dt.month}/{dt.year}"
-        timestamp = int(time.mktime(datetime.strptime(formatted_time, "%d/%m/%Y").timetuple()))  # converts the string in the previous line to a timestamp
+        timestamp = int(time.mktime(datetime.strptime(formatted_time, date_format).timetuple()))  # converts the string in the previous line to a timestamp
         starting_time = 0
 
     for i in range(starting_time, num_tabs+starting_time):

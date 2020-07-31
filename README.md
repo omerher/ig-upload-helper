@@ -1,5 +1,12 @@
 # IG Upload Helper
 
+- [IG Upload Helper](#ig-upload-helper)
+	- [Prerequisites](#prerequisites)
+	- [Installation](#installation)
+	- [Setup](#setup)
+	- [Usage](#usage)
+	- [Contributing](#contributing)
+
 IG Upload Helper is a combination of scripts to help you upload content to your Instagram page faster and easier.
 
 ## Prerequisites
@@ -75,9 +82,7 @@ __
 ```
 You can change the caption to whatever format you want using thee keywords, or add additional features if you know Python.
 
-4. Go into line 114 in *main.py* and change `parent_path  =  "ENTER_FULL_PATH_TO/Instagram Upload Bot/media"` and change it to the full path of the 'media' folder (e.g., `parent_path  =  "E:/Coding/Instagram Upload Bot/media"`). Make sure to replace and backslash `\` with a regular slash `/`. You also have to change line 61 in *uploader.py* to the same path.
-
-5. The final thing to do is run *setup.py*. This is a GUI with settings needed to run the program. To run the file all you have to do is make sure the virtual environment is activated (you should see **(venv)** at the beginning of the line in your CMD window, if it's not activated, check step 7 in Installation), and enter `python setup.py` into the CMD window. Enter all the information in the program and press save.
+4. The final thing to do is run *setup.py*. This is a GUI with settings needed to run the program. To run the file all you have to do is make sure the virtual environment is activated (you should see **(venv)** at the beginning of the line in your CMD window, if it's not activated, check step 7 in Installation), and enter `python setup.py` into the CMD window. Enter all the information in the program and press save.
 
 ## Usage
 
@@ -94,7 +99,7 @@ The program uploads posts by controlling your mouse and keyboard. This means tha
  - **If you have more than one monitor, Chrome has to be last used on the main monitor.** This is because by default it open a new tab in the last used place, and if it's on a different monitor it won't work.
  - **Chrome has to be in full screen for it to click in the correct places.** 
  - **Your file picker window has to be in full screen before starting the program** (there is no full screen button so just double click the top of the window). You can go to any site where there is a file upload button or go to this site [https://ps.uci.edu/~franklin/doc/file_upload.html](https://ps.uci.edu/~franklin/doc/file_upload.html) (it won't be 100% full screen but it's okay).
- - **To stop the bot when it's uploading posts, drag your mouse to the top left corner of your main monitor**. This will throw an error and stop the program. **To stop it when it's doing something else like scraping posts click on the CMD window and press `Ctrl + C`** or pressing the X button in any of the GUI windows.
+ - **To stop the bot when it's uploading posts, drag your mouse to the top left corner of your main monitor**. This will throw an error and stop the program. **To stop it when it's doing something else like scraping posts close the CMD window** or pressing the X button in any of the GUI windows.
  
 
 ## Contributing

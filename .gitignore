@@ -140,9 +140,11 @@ media_backup/*
 # pickle_data folder
 pickle_data/*
 
-# other files that don't need to be uploaded to GitHub
+# other files that don't need to be uploaded/updated to GitHub
 last_timestamp.txt
 settings.ini
+Instagram/description.txt
+Instagram/hashtags.json
 
 # Literally no idea what this is
 .idea/
