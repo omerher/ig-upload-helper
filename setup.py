@@ -21,6 +21,7 @@ layout = [
             [sg.In(key='-FOLDER_PATH-'), sg.FolderBrowse(target='-FOLDER_PATH-')],
             [sg.Text("")],
             [sg.Checkbox("Check if the bookmarks bar is hidden on websites (not new tab)", default=False, key='-BOOKMARKS_BAR_ENABLED-')],
+            [sg.Checkbox("Check if you have multiple accounts connected to Creator Studio.", default=False, key='-MULTILPE-ACCOUNTS-')],
             [sg.Button('Save'), sg.Button('Cancel')]
             ]
 
@@ -67,7 +68,7 @@ while True:
                         quit()
                     post_hours = sg.popup_get_text("Invalid input. Make sure the numbers are separated by a comma.")
         
-        date_format = {'MM/DD/YYYY': '%m/%d/%Y', 'DD/MM/YYYY': '%d/%m/%Y'}[value["DATE_FORMAT"]]  # one-liner for getting the value from dictionary
+        date_format = {'MM/DD/YYYY': '%%m/%%d/%%Y', 'DD/MM/YYYY': '%%d/%%m/%%Y'}[values["-DATE_FORMAT-"]]  # one-liner to get datetime format
         
         config['settings'] = {}
         settings = config['settings']
@@ -76,6 +77,7 @@ while True:
         settings['bookmarks_bar_enabled'] = str(not values['-BOOKMARKS_BAR_ENABLED-'])
         settings['date_format'] = date_format
         settings['folder_path'] = values["-FOLDER_PATH-"]
+        settings['multiple_accounts'] = values['-MULTIPLE_ACCOUNTS-']
 
         with open('settings.ini', 'w') as configfile:
             config.write(configfile)

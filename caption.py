@@ -28,9 +28,9 @@ class Caption:
         path = os.path.join("Instagram", "hashtags.json")
         tiers = ["bottom", "middle", "top"]
         num_hashtags = {
-            "bottom": 3,
-            "middle": 3,
-            "top": 3
+            "bottom": 15,
+            "middle": 9,
+            "top": 4
         }
 
         hashtag_str = ""
@@ -41,7 +41,7 @@ class Caption:
             for tier in tiers:
                 hashtags = json_f[tier].replace("#", "").split()  # gets the hashtags from tier and converts to list
                 scoped_hashtags = []
-                while len(scoped_hashtags) <= num_hashtags[tier]:
+                while len(scoped_hashtags) < num_hashtags[tier]:
                     choice = random.choice(hashtags)
                     if choice not in scoped_hashtags:
                         scoped_hashtags.append(choice)
