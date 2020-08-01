@@ -21,7 +21,7 @@ layout = [
             [sg.In(key='-FOLDER_PATH-'), sg.FolderBrowse(target='-FOLDER_PATH-')],
             [sg.Text("")],
             [sg.Checkbox("Check if the bookmarks bar is hidden on websites (not new tab)", default=False, key='-BOOKMARKS_BAR_ENABLED-')],
-            [sg.Checkbox("Check if you have multiple accounts connected to Creator Studio.", default=False, key='-MULTILPE-ACCOUNTS-')],
+            [sg.Checkbox("Check if you have multiple accounts connected to Creator Studio.", default=False, key='-MULTIPLE-ACCOUNTS-')],
             [sg.Button('Save'), sg.Button('Cancel')]
             ]
 
@@ -77,7 +77,7 @@ while True:
         settings['bookmarks_bar_enabled'] = str(not values['-BOOKMARKS_BAR_ENABLED-'])
         settings['date_format'] = date_format
         settings['folder_path'] = values["-FOLDER_PATH-"]
-        settings['multiple_accounts'] = str(values['-MULTIPLE_ACCOUNTS-'])
+        settings['multiple_accounts'] = str(values['-MULTIPLE-ACCOUNTS-'])
 
         with open('settings.ini', 'w') as configfile:
             config.write(configfile)
