@@ -108,20 +108,20 @@ def main(scrape_account, input_timestamp, num_posts):
     data = reduce_posts(_data, num_posts)
 
 
-    # for x, post in enumerate(data):
-    #     medias = reversed(post["media"])
-    #     file_names = ''
-    #     for y, media in enumerate(medias):
-    #         if ".jpg" in media["media"]:
-    #             download_image(media["media"], parent_path, f"{x} {y}{media['suffix']}")
-    #             file_names += f'"{x} {y}{media["suffix"]}" '
-    #         elif ".mp4" in media["media"]:
-    #             download_mp4(media["media"], parent_path, f"{x} {y}{media['suffix']}")
-    #             file_names += f'"{x} {y}{media["suffix"]}" '
+    for x, post in enumerate(data):
+        medias = reversed(post["media"])
+        file_names = ''
+        for y, media in enumerate(medias):
+            if ".jpg" in media["media"]:
+                download_image(media["media"], parent_path, f"{x} {y}{media['suffix']}")
+                file_names += f'"{x} {y}{media["suffix"]}" '
+            elif ".mp4" in media["media"]:
+                download_mp4(media["media"], parent_path, f"{x} {y}{media['suffix']}")
+                file_names += f'"{x} {y}{media["suffix"]}" '
         
-    #     # create a caption using a method which gets: the original caption, the username of the account posting, and the origin poster
-    #     post_caption = caption.get_caption(post["caption"], username, post["op"])  # pass in values short description, your username, and credit respectively, and returns a generated caption
-    #     uploader.uploader(post_caption, file_names, bb_enabled, parent_path, username, multiple_accounts)
+        # create a caption using a method which gets: the original caption, the username of the account posting, and the origin poster
+        post_caption = caption.get_caption(post["caption"], username, post["op"])  # pass in values short description, your username, and credit respectively, and returns a generated caption
+        uploader.uploader(post_caption, file_names, bb_enabled, parent_path, username, multiple_accounts)
     
     to_remove = sg.popup_get_text("Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
     while not to_remove.isnumeric() or not (0 <= int(to_remove) <= num_posts):
