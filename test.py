@@ -1,8 +1,5 @@
-from datetime import datetime
-
-dt = datetime.fromtimestamp(1596229437)
-
-dt_format = "%%m/%%d/%%Y".replace("%%", "%")
-
-formatted = dt.strftime(dt_format)
-print(formatted)
+import json 
+with open("Instagram/hashtags.json", "r") as f:
+        file_hashtags = json.load(f)
+        for hashtag_tier in file_hashtags:
+            print(file_hashtags[hashtag_tier])

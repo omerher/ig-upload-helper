@@ -2,6 +2,7 @@ import random
 import os
 import json
 import subprocess
+import PySimpleGUI as sg
 
 class Caption:
     def __init__(self, og_caption, username, og_poster):
@@ -32,6 +33,13 @@ class Caption:
             "middle": 9,
             "top": 4
         }
+
+        # check if there are enough hashtags in file
+        with open(path, "r") as f:
+             file_hashtags = json.load(f)
+             for hashtag_tier in file_hashtags:
+                 if len(file_hashtags[hashtag_tier].split() > num_hashtags[hashtag_tier]):
+                     sg.popup_error(f"You have less '{hashtag_tier}' tier hashtags in hashtags.json than configured in caption.py line 32-34. Please change them and press OK.")
 
         hashtag_str = ""
 

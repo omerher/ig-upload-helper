@@ -22,6 +22,7 @@ layout = [
             [sg.Text("")],
             [sg.Checkbox("Check if the bookmarks bar is hidden on websites (not new tab)", default=False, key='-BOOKMARKS_BAR_ENABLED-')],
             [sg.Checkbox("Check if you have multiple accounts connected to Creator Studio.", default=False, key='-MULTILPE-ACCOUNTS-')],
+            [sg.Checkbox("Check if Creator Studio schedule is in 24 hours format.", default=False, key='-24H_FORMAT-')],
             [sg.Button('Save'), sg.Button('Cancel')]
             ]
 
@@ -78,6 +79,7 @@ while True:
         settings['date_format'] = date_format
         settings['folder_path'] = values["-FOLDER_PATH-"]
         settings['multiple_accounts'] = values['-MULTIPLE_ACCOUNTS-']
+        settings['24h_format'] = values['-24H_FORMAT-']
 
         with open('settings.ini', 'w') as configfile:
             config.write(configfile)

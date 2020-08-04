@@ -77,11 +77,6 @@ class InstagramScaper:
         account_id = get_id(account)
         self.data = []
 
-        ## check if the account has enough posts
-        # user_posts = get_user_num_posts(account)
-        # if num_posts > user_posts:
-        #     num_posts = user_posts - 1
-
         max_id = ""
         counter = 0
         while len(self.data) < num_posts:
