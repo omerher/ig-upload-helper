@@ -1,3 +1,5 @@
+import pickle
+import os
 from scraper import scrape
 import time
 import PySimpleGUI as sg
