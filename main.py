@@ -83,6 +83,7 @@ def main(scrape_account, input_timestamp, num_posts):
     parent_path = config['settings']['folder_path']
     dt_format = config['settings']['date_format'].replace("%%", "%")
     multiple_accounts = config['settings']['multiple_accounts']
+    format_24h = config['settings']['24h_format']
 
     
     time.sleep(1)
@@ -162,7 +163,7 @@ def main(scrape_account, input_timestamp, num_posts):
         else:
             timestamp += (post_hours[current] - post_hours[current-1])*3600
         
-        uploader.scheduler(timestamp, bb_enabled, dt_format)
+        uploader.scheduler(timestamp, bb_enabled, dt_format, format_24h)
 
         time.sleep(1)
         keyboard.press_and_release("ctrl+tab")

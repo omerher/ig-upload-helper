@@ -10,91 +10,6 @@ def click(cords):
     y = cords[1]
     pyautogui.click(x, y)
 
-class Uploader:
-    def __init__(self, caption, f_names, bb_enabled, path):
-        # bb = bookmarks bar
-        if bb_enabled == "True":
-            bb_difference = 0
-        else:
-            bb_difference = 35
-        
-        # coords for all buttons to be pressed
-        bb_difference = bb_difference
-        self.profile_select = (334, 172-bb_difference)
-        self.search_profile = (348, 270-bb_difference)
-        self.unselect_all = (495, 730-bb_difference)
-        self.first_profile = (273, 328-bb_difference)
-        self.view_btn = (811, 730-bb_difference)
-        self.create_post_btn = (111, 182-bb_difference)
-        self.instagram_feed_btn = (121, 227-bb_difference)
-        self.caption_location = (1245, 334-bb_difference)
-        self.add_content = (1256, 740-bb_difference)
-        self.file_upload = (1270, 786-bb_difference)
-        self.address_bar = (748, 47)
-        self.file_names_cords = (900, 977)
-        
-        self.caption = caption
-        self.file_names = f_names
-        self.path = path
-    
-    def new_tab(self):
-        # open new tab
-        url = "https://business.facebook.com/creatorstudio?tab=instagram_content_posts&mode=instagram&collection_id=all_pages&content_table=INSTAGRAM_POSTS"
-        os.startfile(url)
-
-        time.sleep(5)
-        click(self.profile_select)
-        
-        time.sleep(1)
-        click(self.unselect_all)
-        
-        time.sleep(1)
-        click(self.search_profile)
-        time.sleep(0.5)
-        keyboard.write("cutelovingdogs")
-        
-        time.sleep(1)
-        click(self.first_profile)
-        
-        time.sleep(1)
-        click(self.view_btn)
-        
-        # wait and then click Create Post
-        time.sleep(3)
-        click(self.create_post_btn)
-
-        # wait and then click Instagram Feed
-        time.sleep(1)
-        click(self.instagram_feed_btn)
-
-        # wait and then enter caption
-        time.sleep(1.5)
-        click(self.caption_location)
-        time.sleep(0.5)
-        subprocess.run(['clip.exe'], input=self.caption.encode('utf-16'), check=True) 
-        keyboard.press_and_release('ctrl+v')
-        
-        time.sleep(1)
-        click(self.add_content)
-
-        time.sleep(1)
-        click(self.file_upload)
-
-        time.sleep(1)
-        click(self.address_bar)
-        time.sleep(0.4)
-        keyboard.write(self.path)
-        time.sleep(0.4)
-        keyboard.press_and_release("enter")
-
-        time.sleep(1)
-        click(self.file_names_cords)
-        time.sleep(0.5)
-        keyboard.write(self.file_names)
-        time.sleep(1)
-        keyboard.press_and_release("enter")
-
-
 def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts):
     # bb = bookmarks bar
     if bb_enabled == "True":
@@ -187,7 +102,7 @@ def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts)
     time.sleep(1)
 
 
-def scheduler(timestamp, bb_enabled, dt_format):
+def scheduler(timestamp, bb_enabled, dt_format, format_24h):
     # bb = bookmarks bar
     if bb_enabled:
         bb_difference = 0
@@ -204,14 +119,16 @@ def scheduler(timestamp, bb_enabled, dt_format):
 
     # Takes care of the hour
     hour = dt.hour
-    is_pm = False
-    if hour == 0:
-        hour = 12
-    elif hour == 12:
-        is_pm = True
-    elif hour > 12:
-        hour = hour % 12
-        is_pm = True
+    # If not 24h format, get AM/PM
+    if format_24h == "False":
+        is_pm = False
+        if hour == 0:
+            hour = 12
+        elif hour == 12:
+            is_pm = True
+        elif hour > 12:
+            hour = hour % 12
+            is_pm = True
 
     time.sleep(1.5)
     click(schedule_caret)
@@ -245,11 +162,12 @@ def scheduler(timestamp, bb_enabled, dt_format):
     time.sleep(1)
     keyboard.press_and_release("tab")
 
-    time.sleep(1.5)
-    if is_pm:
-        keyboard.write("p")
-    else:
-        keyboard.write("a")
+    if format_24h == "False":
+        time.sleep(1.5)
+        if is_pm:
+            keyboard.write("p")
+        else:
+            keyboard.write("a")
     time.sleep(1)
 
 
