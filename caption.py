@@ -21,8 +21,14 @@ class Caption:
 
         for username in usernames:
             if username.strip("@") != self.poster:
-                return username
-
+                url = f"https://www.instagram.com/{username.strip("@")}/?__a=1"
+                json_data = requests.get(url).json()
+                try:  # check if username exists, else return unknown credit
+                    json_data['graphql']
+                    return username
+                except ValueError:
+                    return "unknown (DM for credit)"
+                
         return "unknown (DM for credit)"
 
     def get_hashtags(self):
