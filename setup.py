@@ -21,7 +21,7 @@ layout = [
             [sg.In(key='-FOLDER_PATH-'), sg.FolderBrowse(target='-FOLDER_PATH-')],
             [sg.Text("")],
             [sg.Checkbox("Check if the bookmarks bar is hidden on websites (not new tab)", default=False, key='-BOOKMARKS_BAR_ENABLED-')],
-            [sg.Checkbox("Check if you have multiple accounts connected to Creator Studio.", default=False, key='-MULTIPLE-ACCOUNTS-')],
+            [sg.Checkbox("Check if you have multiple accounts connected to Creator Studio.", default=False, key='-MULTIPLE_ACCOUNTS-')],
             [sg.Checkbox("Check if you have 24h format when scheduling in Creator Studio.", default=False, key='-24H_FORMAT-')],
             [sg.Button('Save'), sg.Button('Cancel')]
             ]
