@@ -78,8 +78,8 @@ while True:
         settings['bookmarks_bar_enabled'] = str(not values['-BOOKMARKS_BAR_ENABLED-'])
         settings['date_format'] = date_format
         settings['folder_path'] = values["-FOLDER_PATH-"]
-        settings['multiple_accounts'] = values['-MULTIPLE_ACCOUNTS-']
-        settings['24h_format'] = values['-24H_FORMAT-']
+        settings['multiple_accounts'] = str(values['-MULTIPLE_ACCOUNTS-'])
+        settings['24h_format'] = str(values['-24H_FORMAT-'])
 
         with open('settings.ini', 'w') as configfile:
             config.write(configfile)

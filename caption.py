@@ -2,6 +2,7 @@ import random
 import os
 import json
 import subprocess
+import requests
 import PySimpleGUI as sg
 
 class Caption:
@@ -21,7 +22,7 @@ class Caption:
 
         for username in usernames:
             if username.strip("@") != self.poster:
-                url = f"https://www.instagram.com/{username.strip("@")}/?__a=1"
+                url = f"https://www.instagram.com/{username.strip('@')}/?__a=1"
                 json_data = requests.get(url).json()
                 try:  # check if username exists, else return unknown credit
                     json_data['graphql']
@@ -44,7 +45,7 @@ class Caption:
         with open(path, "r") as f:
              file_hashtags = json.load(f)
              for hashtag_tier in file_hashtags:
-                 if len(file_hashtags[hashtag_tier].split() > num_hashtags[hashtag_tier]):
+                 if len(file_hashtags[hashtag_tier].split()) < num_hashtags[hashtag_tier]:
                      sg.popup_error(f"You have less '{hashtag_tier}' tier hashtags in hashtags.json than configured in caption.py line 32-34. Please change them and press OK.")
 
         hashtag_str = ""
