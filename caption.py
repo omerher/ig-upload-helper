@@ -23,7 +23,11 @@ class Caption:
         for username in usernames:
             if username.strip("@") != self.poster:
                 url = f"https://www.instagram.com/{username.strip('@')}/?__a=1"
-                json_data = requests.get(url).json()
+                try: # if request error
+                    json_data = requests.get(url).json()
+                except:
+                    return username
+                
                 try:  # check if username exists, else return unknown credit
                     json_data['graphql']
                     return username
