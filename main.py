@@ -36,33 +36,27 @@ def download_image(url, dir, name):
 
 
 def reduce_posts(posts, num_posts):
-    return random.sample(posts[:num_posts+1], len(posts[:num_posts+1]))
+    return random.sample(posts[:num_posts], len(posts[:num_posts]))
 
 
-def main(scrape_account, input_timestamp, num_posts):
-    # creates necessary folders if they don't exists
-    if not os.path.exists("media_backup"):
-        os.mkdir("media_backup")
+def main(scrape_account, input_timestamp, num_posts, user_account):
+    # initializes config file
+    config = ConfigParser()
+    config.read(os.path.join(user_account, "settings.ini"))
 
-    if not os.path.exists("pickle_data"):
-        os.mkdir("pickle_data")
+    post_hours = [int(x) for x in config['settings']['post_hours'].split(',')]  # converts string format into list with integers
+    bb_enabled = config['settings']['bookmarks_bar_enabled']
+    dt_format = config['settings']['date_format'].replace("%%", "%")
+    multiple_accounts = config['settings']['multiple_accounts']
+    format_24h = config['settings']['24h_format']
+    
 
-    # removes all files in media_backup folder
-    for file in os.listdir("media_backup"):
-        os.remove(os.path.join("media_backup", file))
-
-    # moves all files from media folder to media_backup
-    for file in os.listdir("media"):
-        if file == ".gitkeep":
-            continue
-        os.rename(os.path.join("media", file),
-        os.path.join("media_backup", file))
-
+    input_timestamp_path = os.path.join(user_account, "last_timestamp.txt")
     # read and get variables from files
-    if not input_timestamp and os.path.exists("last_timestamp.txt"):
-        with open("last_timestamp.txt", "r") as f:
+    if not input_timestamp and os.path.exists(input_timestamp_path):
+        with open(input_timestamp_path, "r") as f:
             last_timestamp = int(f.read())
-    elif not input_timestamp and not os.path.exists("last_timestamp.txt"):
+    elif not input_timestamp and not os.path.exists(input_timestamp_path):
         last_timestamp = sg.popup_get_text("No timestamp found. Please enter a timestamp to continue.")
         while not last_timestamp.isnumberic():
             if last_timestamp is None:
@@ -72,24 +66,31 @@ def main(scrape_account, input_timestamp, num_posts):
     else: 
         last_timestamp = input_timestamp
 
-    # initializes config file
-    config = ConfigParser()
-    config.read("settings.ini")
+    # creates necessary folders if they don't exists
+    if not os.path.exists(f"{user_account}/media"):
+        os.mkdir(f"{user_account}/media")
 
+    if not os.path.exists(f"{user_account}/media_backup"):
+        os.mkdir(f"{user_account}/media_backup")
 
-    username = config['settings']['username']
-    post_hours = [int(x) for x in config['settings']['post_hours'].split(',')]  # converts string format into list with integers
-    bb_enabled = config['settings']['bookmarks_bar_enabled']
-    parent_path = config['settings']['folder_path']
-    dt_format = config['settings']['date_format'].replace("%%", "%")
-    multiple_accounts = config['settings']['multiple_accounts']
-    format_24h = config['settings']['24h_format']
+    if not os.path.exists(f"{user_account}/pickle_data"):
+        os.mkdir(f"{user_account}/pickle_data")
 
-    
+    # removes all files in media_backup folder
+    for file in os.listdir(f"{user_account}/media_backup"):
+        os.remove(os.path.join(f"{user_account}/media_backup", file))
+
+    # moves all files from media folder to media_backup
+    for file in os.listdir(f"{user_account}/media"):
+        if file == ".gitkeep":
+            continue
+        os.rename(os.path.join(f"{user_account}/media", file),
+        os.path.join(f"{user_account}/media_backup", file))
+
     time.sleep(1)
 
     load_from_file = "No"
-    if os.path.exists(os.path.join("pickle_data", f"{scrape_account}.pkl")):  # checks if file exists to ensure no errors or unnecessary questions are asked
+    if os.path.exists(os.path.join(f"{user_account}/pickle_data", f"{scrape_account}.pkl")):  # checks if file exists to ensure no errors or unnecessary questions are asked
         load_from_file = sg.popup_yes_no("Load from file", "We have found data from that user, do you want to load from that file")
         while not load_from_file:
             if load_from_file is None:
@@ -97,19 +98,20 @@ def main(scrape_account, input_timestamp, num_posts):
             load_from_file = sg.popup_yes_no("Error", "Please press Yes or No. We have found data from that user, do you want to load from that file")
 
     if load_from_file == "Yes":
-        with open(os.path.join("pickle_data",  f"{scrape_account}.pkl"), "rb") as f:
+        with open(os.path.join(f"{user_account}/pickle_data",  f"{scrape_account}.pkl"), "rb") as f:
             _data = pickle.load(f)
 
         time.sleep(5)
     else:
         _data = scraper.scrape(scrape_account, 500)
         
-        with open(os.path.join("pickle_data",  f"{scrape_account}.pkl"), "wb") as f:
+        with open(os.path.join(f"{user_account}/pickle_data",  f"{scrape_account}.pkl"), "wb") as f:
             pickle.dump(_data, f)
 
     data = reduce_posts(_data, num_posts)
 
 
+    parent_path = os.path.abspath(f"{user_account}/media")
     for x, post in enumerate(data):
         medias = reversed(post["media"])
         file_names = ''
@@ -122,8 +124,8 @@ def main(scrape_account, input_timestamp, num_posts):
                 file_names += f'"{x} {y}{media["suffix"]}" '
         
         # create a caption using a method which gets: the original caption, the username of the account posting, and the origin poster
-        post_caption = caption.get_caption(post["caption"], username, post["op"])  # pass in values short description, your username, and credit respectively, and returns a generated caption
-        uploader.uploader(post_caption, file_names, bb_enabled, parent_path, username, multiple_accounts)
+        post_caption = caption.get_caption(post["caption"], user_account, post["op"])  # pass in values short description, your username, and credit respectively, and returns a generated caption
+        uploader.uploader(post_caption, file_names, bb_enabled, parent_path, user_account, multiple_accounts)
     
     to_remove = sg.popup_get_text("Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
     while not to_remove.isnumeric() or not (0 <= int(to_remove) <= num_posts):
@@ -144,7 +146,6 @@ def main(scrape_account, input_timestamp, num_posts):
     # try to find the index of the hour from the timestamp in the configured hours, but if not found, start from the beginning of that day
     try:
         starting_time = post_hours.index(dt.hour) + 1
-        print(starting_time)
     except ValueError:
         formatted_time = f"{dt.day}/{dt.month}/{dt.year}"
         timestamp = int(time.mktime(datetime.strptime(formatted_time, dt_format).timetuple()))  # converts the string in the previous line to a timestamp
@@ -170,7 +171,7 @@ def main(scrape_account, input_timestamp, num_posts):
         time.sleep(1)
 
 
-    with open("last_timestamp.txt", "w") as f:
+    with open(f"{user_account}/last_timestamp.txt", "w") as f:
         f.write(str(int(timestamp)))  # convert to int before to remove .0 at the end
 
 if __name__ == '__main__':

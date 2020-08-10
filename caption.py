@@ -12,7 +12,7 @@ class Caption:
         self.poster = og_poster
     
     def get_description(self):
-        with open("Instagram/description.txt", "r", encoding="utf-8") as f:
+        with open(f"{self.username}/description.txt", "r", encoding="utf-8") as f:
             descriptions = f.read().split("\n")
         
         return random.choice(descriptions)
@@ -27,17 +27,17 @@ class Caption:
                 try:  # check if username exists, else return unknown credit
                     json_data['graphql']
                     return username
-                except ValueError:
+                except KeyError:
                     return "unknown (DM for credit)"
                 
         return "unknown (DM for credit)"
 
     def get_hashtags(self):
-        path = os.path.join("Instagram", "hashtags.json")
+        path = os.path.join(self.username, "hashtags.json")
         tiers = ["bottom", "middle", "top"]
         num_hashtags = {
-            "bottom": 15,
-            "middle": 9,
+            "bottom": 12,
+            "middle": 12,
             "top": 4
         }
 

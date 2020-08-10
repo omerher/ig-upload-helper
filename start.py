@@ -3,17 +3,24 @@ from configparser import ConfigParser
 import os
 from main import main
 import re
+import os
 
 WINDOW_TITLE = 'Instagram Uploader Bot'
 
 sg.theme('Dark')   # Add a touch of color
 # All the stuff inside your window.
+
+accounts = [folder for folder in [os.path.join('.', o)[2:] for o in os.listdir('.') if os.path.isdir(os.path.join('.',o))] if folder not in ['.git', 'venv', '__pycache__', '.vscode']]  # gets all accounts
+if len(accounts) == 0:
+    sg.popup_error('No accounts found. Try running setup.py and then start.py again.')
+    quit()
+
 layout = [ 
             [sg.Text('Enter the username of the account you want to scrape:'), sg.InputText(key='-SCRAPE_USERNAME-', size=(41,0))],
             [sg.Text("Enter the timestamp of your last post (if nothing is entered, it will be taken from the 'last_timestamp.txt' file):")],
             [sg.InputText(key = '-TIMESTAMP-', size=(11,0)), sg.Button('epochconverter.com')],
             [sg.Text("Enter how many posts you want to posts from the user:"), sg.InputText(key='-NUM_POSTS-', default_text='25', size=(6,0))],
-            [sg.Button('Start'), sg.Button('Cancel')] ]
+            [sg.Text("Select your account:"), sg.DropDown(accounts, key='-ACCOUNT-', default_value=accounts[0]), sg.Button('Start'), sg.Button('Cancel')] ]
 
 
 # Create the Window
@@ -42,8 +49,10 @@ while True:
                 quit()
             num_posts = sg.popup_get_text("Input must be a number between 1-100.")
         num_posts = int(num_posts)
+        
+        account = values['-ACCOUNT-']
 
-        main(scrape_username, input_timestamp, num_posts)
+        main(scrape_username, input_timestamp, num_posts, account)
 
     if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
         break
