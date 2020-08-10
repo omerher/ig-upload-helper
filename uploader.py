@@ -158,7 +158,9 @@ def scheduler(timestamp, bb_enabled, dt_format, format_24h):
     keyboard.press_and_release("tab")
 
     time.sleep(1)
-    keyboard.write(str(dt.minute))
+    for minute in str(dt.minute):
+        time.sleep(1)
+        keyboard.write(minute)
     time.sleep(1)
     keyboard.press_and_release("tab")
 
