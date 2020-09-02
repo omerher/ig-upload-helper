@@ -39,17 +39,20 @@ class Caption:
     def get_hashtags(self):
         path = os.path.join(self.username, "hashtags.json")
         tiers = ["bottom", "middle", "top"]
-        num_hashtags = {
-            "bottom": 12,
-            "middle": 12,
-            "top": 4
-        }
+        
+        with open(path, "r") as f:
+            file_nums = json.load(f)["num_hashtags"].split()
+            num_hashtags = {
+                "bottom": int(file_nums[0]),
+                "middle": int(file_nums[1]),
+                "top": int(file_nums[2])
+            }
 
         # check if there are enough hashtags in file
         with open(path, "r") as f:
              file_hashtags = json.load(f)
              for hashtag_tier in file_hashtags:
-                 if len(file_hashtags[hashtag_tier].split()) < num_hashtags[hashtag_tier]:
+                 if len(file_hashtags[hashtag_tier].split()) < num_hashtags.get(hashtag_tier, 0):
                      sg.popup_error(f"You have less '{hashtag_tier}' tier hashtags in hashtags.json than configured in caption.py line 32-34. Please change them and press OK.")
 
         hashtag_str = ""

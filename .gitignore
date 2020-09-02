@@ -143,6 +143,7 @@ pickle_data/*
 # other files that don't need to be uploaded/updated to GitHub
 cutelovingdogs/
 luxurymasterclub/
+test.py
 
 # Literally no idea what this is
 .idea/

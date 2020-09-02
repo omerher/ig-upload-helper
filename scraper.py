@@ -81,7 +81,7 @@ class InstagramScaper:
         counter = 0
         while len(self.data) < num_posts:
             counter += 1
-            sg.one_line_progress_meter('Scraping Posts', counter*12, num_posts, f"Scraping posts of user {account}...", orientation='h')
+            sg.one_line_progress_meter(f"Scraping posts of user {account}...", counter*12, num_posts, f"Scraping posts of user {account}...", orientation='h')
             info = self.get_user_info(account_id, max_id)  # get targeted user's posts
 
             # parse through all posts

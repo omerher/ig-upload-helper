@@ -10,11 +10,7 @@ import keyboard
 from datetime import datetime
 import time
 
-# files and classes imports
-import scraper
-import caption
-import uploader
-
+import utils, scraper, caption, uploader
 
 
 def download_mp4(url, dir, name):
@@ -66,15 +62,8 @@ def main(scrape_account, input_timestamp, num_posts, user_account):
     else: 
         last_timestamp = input_timestamp
 
-    # creates necessary folders if they don't exists
-    if not os.path.exists(f"{user_account}/media"):
-        os.mkdir(f"{user_account}/media")
 
-    if not os.path.exists(f"{user_account}/media_backup"):
-        os.mkdir(f"{user_account}/media_backup")
-
-    if not os.path.exists(f"{user_account}/pickle_data"):
-        os.mkdir(f"{user_account}/pickle_data")
+    utils.setup_folder(user_account)  # make sure all folders are there
 
     # removes all files in media_backup folder
     for file in os.listdir(f"{user_account}/media_backup"):

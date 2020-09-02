@@ -129,6 +129,11 @@ def scheduler(timestamp, bb_enabled, dt_format, format_24h):
         elif hour > 12:
             hour = hour % 12
             is_pm = True
+    
+    # Takes care of the mintues
+    minutes = str(dt.minute)
+    if len(minutes) == 1:
+        minutes = "0" + minutes
 
     time.sleep(1.5)
     click(schedule_caret)
@@ -158,7 +163,7 @@ def scheduler(timestamp, bb_enabled, dt_format, format_24h):
     keyboard.press_and_release("tab")
 
     time.sleep(1)
-    for minute in str(dt.minute):
+    for minute in minutes:
         time.sleep(1)
         keyboard.write(minute)
     time.sleep(1)
@@ -171,7 +176,3 @@ def scheduler(timestamp, bb_enabled, dt_format, format_24h):
         else:
             keyboard.write("a")
     time.sleep(1)
-
-
-if __name__ == "__main__":
-    pass
