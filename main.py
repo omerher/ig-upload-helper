@@ -45,6 +45,7 @@ def main(scrape_account, input_timestamp, num_posts, user_account):
     dt_format = config['settings']['date_format'].replace("%%", "%")
     multiple_accounts = config['settings']['multiple_accounts']
     format_24h = config['settings']['24h_format']
+    fb_name = config['settings']['fb_name']
     
 
     input_timestamp_path = os.path.join(user_account, "last_timestamp.txt")
@@ -78,6 +79,7 @@ def main(scrape_account, input_timestamp, num_posts, user_account):
 
     time.sleep(1)
 
+    # asks user if they want to load data from file
     load_from_file = "No"
     if os.path.exists(os.path.join(f"{user_account}/pickle_data", f"{scrape_account}.pkl")):  # checks if file exists to ensure no errors or unnecessary questions are asked
         load_from_file = sg.popup_yes_no("Load from file", "We have found data from that user, do you want to load from that file")
@@ -97,6 +99,12 @@ def main(scrape_account, input_timestamp, num_posts, user_account):
         with open(os.path.join(f"{user_account}/pickle_data",  f"{scrape_account}.pkl"), "wb") as f:
             pickle.dump(_data, f)
 
+    with open(os.path.join(user_account, "scraped_accounts.txt"), "a+") as f:
+        scraped_accounts = f.read().split("\n")
+
+        if scrape_account not in scraped_accounts:
+            f.write(f"{scrape_account}\n")
+
     data = reduce_posts(_data, num_posts)
 
 
@@ -114,7 +122,7 @@ def main(scrape_account, input_timestamp, num_posts, user_account):
         
         # create a caption using a method which gets: the original caption, the username of the account posting, and the origin poster
         post_caption = caption.get_caption(post["caption"], user_account, post["op"])  # pass in values short description, your username, and credit respectively, and returns a generated caption
-        uploader.uploader(post_caption, file_names, bb_enabled, parent_path, user_account, multiple_accounts)
+        uploader.uploader(post_caption, file_names, bb_enabled, parent_path, user_account, multiple_accounts, fb_name)
     
     to_remove = sg.popup_get_text("Navigate to the first tab and enter how many tabs you deleted (if none, enter 0):")
     while not to_remove.isnumeric() or not (0 <= int(to_remove) <= num_posts):
@@ -162,6 +170,10 @@ def main(scrape_account, input_timestamp, num_posts, user_account):
 
     with open(f"{user_account}/last_timestamp.txt", "w") as f:
         f.write(str(int(timestamp)))  # convert to int before to remove .0 at the end
+
+    to_delete = sg.popup_yes_no(f"Do you want to delete the .pkl file of @{scrape_account}?")
+    if to_delete == "Yes":
+        os.remove(os.path.join(user_account, f"pickle_data/{scrape_account}.pkl"))
 
 if __name__ == '__main__':
     pass

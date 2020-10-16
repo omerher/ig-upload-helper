@@ -23,12 +23,16 @@ if len(accounts) > 1:
 barrier = sg.Text("|", font=("Ariel 15"))
 barrier_visible = sg.Text("|", font=("Ariel 15"), visible=accounts_visible)
 
+if len(accounts) > 1:
+    default_account = accounts[0]
+else:
+    default_account = "No Accounts Found"
 layout = [ 
             [sg.Text("IG Upload Helper", font=("Ariel 14"), justification='center', size=(x,1))],
             [sg.Text("")],
             [sg.Text("First Time (for each account)", font=("Arield 12 bold"))],
             [sg.Button("Setup", size=(8,2)), ],
-            [sg.Text("Select account:", visible=accounts_visible), sg.DropDown(accounts, key='-ACCOUNT-', default_value=accounts[0], visible=accounts_visible), barrier_visible, sg.Text("Setup files:"), sg.Button("Descriptions"), sg.Button("Hashtags")],
+            [sg.Text("Select account:", visible=accounts_visible), sg.DropDown(accounts, key='-ACCOUNT-', default_value=default_account, visible=accounts_visible), barrier_visible, sg.Text("Setup files:"), sg.Button("Descriptions"), sg.Button("Hashtags")],
             [sg.Text("")],
             [sg.Text("Run Bot", font=("Ariel 12 bold"))],
             [sg.Button("Start", size=(8,2))],
@@ -36,7 +40,7 @@ layout = [
             [sg.Text("Scrape multiple accounts to use for later:")],
             [sg.Text("Enter the accounts separated by a comma (e.g., 'instagram,cristiano,jlo')")],
             [sg.InputText(key='-ACCOUNTS-', size=(25,0))],
-            [sg.Text("Select your account:"), sg.DropDown(accounts, key='-OVERNIGHT_ACCOUNT-', default_value=accounts[0], visible=accounts_visible), sg.Button('Scrape')],
+            [sg.Text("Select your account:"), sg.DropDown(accounts, key='-OVERNIGHT_ACCOUNT-', default_value=default_account, visible=accounts_visible), sg.Button('Scrape')],
             [sg.Text("")],
             [sg.Button('Cancel', size=(8,2))]
             ]
@@ -64,7 +68,7 @@ while True:
         else:
             username = values["-ACCOUNT-"]
             
-        description_path = os.path.join(base_path, f"{username}/description.txt")
+        description_path = os.path.join(base_path, f"{username}/descriptions.txt")
         os.startfile(description_path)
     
     if event == "Hashtags":

@@ -35,11 +35,24 @@ def start():
             os.startfile('https://www.epochconverter.com/')
 
         if event == 'Start':
+            account = values['-ACCOUNT-']
+            
             scrape_username = values["-SCRAPE_USERNAME-"]
             while not scrape_username:
                 if scrape_username is None:
                     quit()
                 scrape_username = sg.popup_get_text("Username cannot be blank.")
+
+            # checks
+            with open(os.path.join(account, "scraped_accounts.txt"), "r") as f:
+                scraped_accounts = f.read().split("\n")
+
+                if scrape_username in scraped_accounts:
+                    is_continue = sg.popup_yes_no("Warning", "You have already scraped posts from that user. Are you sure you want to scrape them again?")
+                    while not is_continue:
+                        if is_continue is None:
+                            quit()
+                        is_continue = sg.popup_yes_no("Warning", "You have already scraped posts from that user. Are you sure you want to scrape them again?")
 
             input_timestamp = values["-TIMESTAMP-"]
             
@@ -50,8 +63,6 @@ def start():
                     quit()
                 num_posts = sg.popup_get_text("Input must be a number between 1-100.")
             num_posts = int(num_posts)
-            
-            account = values['-ACCOUNT-']
 
             main(scrape_username, input_timestamp, num_posts, account)
 

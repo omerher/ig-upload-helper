@@ -2,8 +2,9 @@ import os
 import PySimpleGUI as sg
 import json
 import pickle
-import utils
+from scraper import scrape
 import time
+import PySimpleGUI as sg
 
 def create_folder(path):
     if not os.path.isdir(path):
@@ -15,7 +16,7 @@ def create_file(path, file_text):
             f.write(file_text)
 
 def setup_folder(username):
-    main_folder_path = os.path.realpath(__file__)[:-15]
+    main_folder_path = os.path.realpath(__file__)[:-len(os.path.basename(__file__))]
     
     # creates the necassary files
     base_path = os.path.join(main_folder_path, username)
@@ -24,8 +25,8 @@ def setup_folder(username):
     create_folder(os.path.join(base_path, "media_backup"))  # creates media_backup folder
     create_folder(os.path.join(base_path, "pickle_data"))  # creates pickle_data folder
 
-    # creates description.txt if it doesn't exist
-    description_path = os.path.join(base_path, "description.txt")
+    # creates descriptions.txt if it doesn't exist
+    description_path = os.path.join(base_path, "descriptions.txt")
     create_file(description_path, "Enter each description/caption on a new line.")
 
 def overnight_scrape(accounts, user_account):
@@ -40,7 +41,7 @@ def overnight_scrape(accounts, user_account):
         os.mkdir(f"{user_account}/pickle_data")
  
     for account in accounts_split:
-        account_data = utils.scraper.scrape(account, 500)
+        account_data = scrape(account, 500)
  
         with open(os.path.join(f"{user_account}/pickle_data",  f"{account}.pkl"), "wb") as f:
             pickle.dump(account_data, f)
@@ -59,7 +60,7 @@ def setup_hashtags(hashtags_path):
                 [sg.Text("Medium Hashtags:"), sg.Input(key="-NUM_MEDIUM-", size=(5,1))],
                 [sg.Text("Large Hashtags:"), sg.Input(key="-NUM_LARGE-", size=(5,1))],
                 [sg.Text("")],
-                [sg.Text("Enter hashtags here:")],
+                [sg.Text("Enter hashtags here (example: #h1 #h2 #h3 #h4):")],
                 [sg.Text("Small Hashtags:"), sg.Input(key="-HASHTAGS_SMALL-")],
                 [sg.Text("Medium Hashtags:"), sg.Input(key="-HASHTAGS_MEDIUM-")],
                 [sg.Text("Large Hashtags:"), sg.Input(key="-HASHTAGS_LARGE-")],
@@ -73,15 +74,20 @@ def setup_hashtags(hashtags_path):
     while True:
         event, values = window.read()
 
-        # when user click Save
+        # when user clicks Save
         if event == "Save":
             num_small_hashtags = values["-NUM_SMALL-"]
             num_medium_hashtags = values["-NUM_MEDIUM-"]
             num_large_hashtags = values["-NUM_LARGE-"]
 
             small_hashtags = values["-HASHTAGS_SMALL-"]
+            small_hashtags = is_valid_hashtags(small_hashtags)
+
             medium_hashtags = values["-HASHTAGS_MEDIUM-"]
+            medium_hashtags = is_valid_hashtags(medium_hashtags)
+            
             large_hashtags = values["-HASHTAGS_LARGE-"]
+            large_hashtags = is_valid_hashtags(large_hashtags)
 
             with open(hashtags_path, "w") as f:
                 hashtags = {}
@@ -104,3 +110,9 @@ def setup_hashtags(hashtags_path):
     window.close()
 
     return None
+
+def is_valid_hashtags(hashtags):
+    while not len(hashtags.split()) == hashtags.count("#"):
+        sg.popup_get_text("Make sure all hashtags start with '#'")
+    
+    return hashtags

@@ -10,7 +10,7 @@ def click(cords):
     y = cords[1]
     pyautogui.click(x, y)
 
-def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts):
+def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts, fb_name):
     # bb = bookmarks bar
     if bb_enabled == "True":
         bb_difference = 0
@@ -19,9 +19,9 @@ def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts)
     
     # coords for all buttons to be pressed
     profile_select = (334, 172-bb_difference)
-    search_profile = (348, 270-bb_difference)
+    search_profile = (1588, 244-bb_difference)
     unselect_all = (495, 730-bb_difference)
-    first_profile = (273, 328-bb_difference)
+    first_profile = (1630, 309-bb_difference)
     view_btn = (811, 730-bb_difference)
     create_post_btn = (111, 182-bb_difference)
     instagram_feed_btn = (121, 227-bb_difference)
@@ -36,28 +36,28 @@ def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts)
     url = "https://business.facebook.com/creatorstudio?tab=instagram_content_posts&mode=instagram&collection_id=all_pages&content_table=INSTAGRAM_POSTS"
     os.startfile(url)
 
-    if multiple_accounts == "True":  # need to select only one account for the bot to work
-        # click profile selection button
-        time.sleep(5)
-        click(profile_select)
+    # if multiple_accounts == "True":  # need to select only one account for the bot to work
+    #     # click profile selection button
+    #     time.sleep(5)
+    #     click(profile_select)
         
-        # click Unselect All
-        time.sleep(1)
-        click(unselect_all)
+    #     # click Unselect All
+    #     time.sleep(1)
+    #     click(unselect_all)
         
-        # search for the account
-        time.sleep(1)
-        click(search_profile)
-        time.sleep(0.5)
-        keyboard.write(username)
+    #     # search for the account
+    #     time.sleep(1)
+    #     click(search_profile)
+    #     time.sleep(0.5)
+    #     keyboard.write(username)
         
-        # select the first profile
-        time.sleep(1)
-        click(first_profile)
+    #     # select the first profile
+    #     time.sleep(1)
+    #     click(first_profile)
         
-        # click save button
-        time.sleep(1)
-        click(view_btn)
+    #     # click save button
+    #     time.sleep(1)
+    #     click(view_btn)
     
     # click Create Post
     time.sleep(5)
@@ -66,6 +66,16 @@ def uploader(caption, file_names, bb_enabled, path, username, multiple_accounts)
     # click Instagram Feed
     time.sleep(1)
     click(instagram_feed_btn)
+
+    if multiple_accounts:
+        time.sleep(1.5)
+        click(search_profile)
+
+        time.sleep(1.5)
+        keyboard.write(fb_name)
+
+        time.sleep(1)
+        click(first_profile)
 
     # enter caption
     time.sleep(1.5)
@@ -135,13 +145,13 @@ def scheduler(timestamp, bb_enabled, dt_format, format_24h):
     if len(minutes) == 1:
         minutes = "0" + minutes
 
-    time.sleep(1.5)
+    time.sleep(0.5)
     click(schedule_caret)
 
-    time.sleep(1)
+    time.sleep(0.5)
     click(schedule_btn)
 
-    time.sleep(1.5)
+    time.sleep(1)
     click(date_cords)
 
     time.sleep(0.75)
@@ -151,7 +161,7 @@ def scheduler(timestamp, bb_enabled, dt_format, format_24h):
     time.sleep(0.5)
     keyboard.press_and_release("tab")
 
-    time.sleep(1)
+    time.sleep(0.5)
     str_hour = str(hour)
     if len(str_hour) == 1:
         keyboard.write(str_hour)

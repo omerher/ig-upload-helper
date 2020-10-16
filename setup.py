@@ -14,6 +14,8 @@ def setup():
 
     layout = [ 
                 [sg.Text('Enter your own username: '), sg.InputText(size=(30,), key='-USERNAME-') ],
+                [sg.Text('Enter your Facebook page name that is linked to your Instagram account:')],
+                [sg.InputText(size=(25,), key='-FB_NAME-')],
                 [sg.Text("")],
                 [sg.Text('Enter the hours to post separated by a comma (e.g., 0,7,14)')],
                 [sg.Text("where 0 = 12am:"), sg.InputText(size=(25,), key='-POST_HOURS-')],
@@ -52,6 +54,14 @@ def setup():
                     username = sg.popup_get_text("Please input your username to continue using the program.")
             
             date_format = {'MM/DD/YYYY': '%%m/%%d/%%Y', 'DD/MM/YYYY': '%%d/%%m/%%Y'}[values["-DATE_FORMAT-"]]  # one-liner to get datetime format
+
+            fb_name = values["-FB_NAME-"]
+            if not fb_name:
+                fb_name = sg.popup_get_text("Facebook page name not present. Please input to continue using the program.")
+                while not fb_name:
+                    if fb_name is None:
+                        quit()
+                    fb_name = sg.popup_get_text("Facebook page name not present. Please input to continue using the program.")
             
             config['settings'] = {}
             settings = config['settings']
@@ -61,6 +71,7 @@ def setup():
             settings['date_format'] = date_format
             settings['multiple_accounts'] = str(values['-MULTIPLE_ACCOUNTS-'])
             settings['24h_format'] = str(values['-24H_FORMAT-'])
+            settings['fb_name'] = fb_name
 
             # setup all folders
             utils.setup_folder(username)
@@ -83,3 +94,6 @@ def setup():
     window.close()
 
     return None
+
+if __name__ == "__main__":
+    setup()
